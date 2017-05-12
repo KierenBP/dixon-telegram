@@ -32,12 +32,12 @@ bot.onText(/^(hello |hi |kia\ ora |hey )(!)?( dixon)?(!)?/ig, (msg, match) => {
 });
 
 
-// Matches "/diceroll [number]"
-bot.onText(/\/diceroll (.+)/, (msg, match) => {
+// Matches "/diceroll,rolldice [number]"
+bot.onText(/\/(diceroll|rolldice)( .+)?/, (msg, match) => {
   const chatId = msg.chat.id;
   // Send Typing Status
   bot.sendChatAction(chatId, 'typing');
-  commands.diceRoll(match[1]).then((value) => {
+  commands.diceRoll(match[2] || 6).then((value) => {
     bot.sendMessage(chatId, `🎲 ${value}`);
   }).catch((err) => {
     bot.sendMessage(chatId, `🚫Error! ${err}`);

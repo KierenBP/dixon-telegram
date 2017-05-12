@@ -32,8 +32,8 @@ bot.onText(/^(hello |hi |kia\ ora |hey )(!)?( dixon)?(!)?/ig, (msg, match) => {
 });
 
 
-// Matches "/diceroll,rolldice [number]"
-bot.onText(/\/(diceroll|rolldice)( .+)?/, (msg, match) => {
+// Matches "/roll [number]"
+bot.onText(/\/(roll|)( .+)?/, (msg, match) => {
   const chatId = msg.chat.id;
   // Send Typing Status
   bot.sendChatAction(chatId, 'typing');

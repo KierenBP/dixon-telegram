@@ -51,3 +51,8 @@ bot.onText(/\/urbandic (.+)/, (msg, match) => {
     bot.sendMessage(chatId, `🚫Error! ${err}`);
   });
 });
+
+// bot.on('message', (msg) => {
+//   const chatId = msg.chat.id;
+//   console.log(msg);
+// });

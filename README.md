@@ -8,5 +8,5 @@
 ### Features:
 * [ ] Weather Search
 * [ ] Giphy Search
-* [ ] Urban Dictionary Search
+* [x] Urban Dictionary Search
 * [x] Dice Roll

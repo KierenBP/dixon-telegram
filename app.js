@@ -22,10 +22,13 @@ bot.getMe().then((me) => {
 });
 
 // Matches "Hello"
-bot.onText(/hello(!)?( dixon)?(!)?/ig, (msg, match) => {
+bot.onText(/^(hello |hi |kia\ ora |hey )(!)?( dixon)?(!)?/ig, (msg, match) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, 'Hello! 👋');
+  bot.sendMessage(chatId, 'Hello! 👋', {
+    reply_to_message_id: msg.message_id,
+    disable_notification: true,
+  });
 });
 
 

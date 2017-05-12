@@ -7,6 +7,6 @@
 [Trello Todo List](https://trello.com/b/msinP5Qy)
 ### Features:
 * [ ] Weather Search
-* [ ] Giphy Search
+* [x] Giphy Search (by ending a sentence with '.gif')
 * [x] Urban Dictionary Search
 * [x] Dice Roll

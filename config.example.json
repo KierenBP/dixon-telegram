@@ -1,4 +1,5 @@
 {
     "telegramToken": "", // Telegram Bot Token
-    "giphyToken": "dc6zaTOxFJmzC"
+    "giphyToken": "dc6zaTOxFJmzC", // Giphy Token (Public one included)
+    "darkSkyAPI": "" // Dark Sky API Key https://darksky.net/dev/
 }

@@ -19,6 +19,14 @@ bot.getMe().then((me) => {
   console.log(`Hi! I'm ${me.first_name}`);
 });
 
+// Matches "Hello"
+bot.onText(/hello(!)?( dixon)?(!)?/ig, (msg, match) => {
+  const chatId = msg.chat.id;
+  bot.sendChatAction(chatId, 'typing');
+  bot.sendMessage(chatId, 'Hello! 👋');
+});
+
+
 // Matches "/diceroll [number]"
 bot.onText(/\/diceroll (.+)/, (msg, match) => {
   const chatId = msg.chat.id;

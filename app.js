@@ -39,7 +39,7 @@ bot.onText(/^(hello |hi |kia ora |hey )(!)?( dixon)?(!)?/ig, (msg) => {
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, 'Help! \nDixon Bot was created by @imkieren \n\nCommands and Actions:\n[word].gif - Searches giphy and returns a gif\n/urbandic [word] - Searches Urban Dictionary for specified word\n/roll (number) - Rolls dice. 6 sides is default.\nWeather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown' });
+  bot.sendMessage(chatId, 'Help! \nDixon Bot was created by @imkieren \n\nCommands and Actions:\n[[word]].gif - Searches giphy and returns a gif\n/urbandic [word] - Searches Urban Dictionary for specified word\n/roll (number) - Rolls dice. 6 sides is default.\nWeather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown' });
 });
 
 

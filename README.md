@@ -6,7 +6,7 @@
 
 [Trello Todo List](https://trello.com/b/msinP5Qy)
 ### Features:
-* [ ] Weather Search
+* [x] Weather Search (Send bot your location for weather update)
 * [x] Giphy Search (by ending a sentence with '.gif')
 * [x] Urban Dictionary Search
 * [x] Dice Roll

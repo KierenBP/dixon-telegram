@@ -9,4 +9,4 @@
 * [ ] Weather Search
 * [ ] Giphy Search
 * [ ] Urban Dictionary Search
-* [ ] Dice Roll
+* [x] Dice Roll

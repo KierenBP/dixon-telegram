@@ -18,11 +18,12 @@ const token = config.telegramToken;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.getMe().then((me) => {
+  // eslint-disable-next-line
   console.log(`Hi! I'm ${me.first_name}`);
 });
 
 // Matches "Hello"
-bot.onText(/^(hello |hi |kia\ ora |hey )(!)?( dixon)?(!)?/ig, (msg, match) => {
+bot.onText(/^(hello |hi |kia ora |hey )(!)?( dixon)?(!)?/ig, (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
   bot.sendMessage(chatId, 'Hello! 👋', {
@@ -33,7 +34,7 @@ bot.onText(/^(hello |hi |kia\ ora |hey )(!)?( dixon)?(!)?/ig, (msg, match) => {
 
 
 // Matches "/roll [number]"
-bot.onText(/\/(roll|)( .+)?/, (msg, match) => {
+bot.onText(/\/(roll)( .+)?/, (msg, match) => {
   const chatId = msg.chat.id;
   // Send Typing Status
   bot.sendChatAction(chatId, 'typing');

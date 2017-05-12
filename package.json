@@ -1,0 +1,26 @@
+{
+  "name": "dixon-telegram",
+  "version": "0.0.1",
+  "description": "Telegram Bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KierenBP/dixon-telegram.git"
+  },
+  "keywords": [
+    "Telegram",
+    "Bot"
+  ],
+  "author": "Kieren BP",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KierenBP/dixon-telegram/issues"
+  },
+  "homepage": "https://github.com/KierenBP/dixon-telegram#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.27.1"
+  }
+}

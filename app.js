@@ -63,8 +63,8 @@ bot.onText(/(.+)\.gif+$/g, (msg, match) => {
   const chatId = msg.chat.id;
   // Send videosending Status
   bot.sendChatAction(chatId, 'upload_video');
-  commands.giphy(match[1]).then((x) => {
-    bot.sendVideo(chatId, x);
+  commands.giphy(match[1]).then((gifUrl) => {
+    bot.sendVideo(chatId, gifUrl);
   }).catch((err) => {
     bot.sendMessage(chatId, `🚫Error! ${err}`);
   });

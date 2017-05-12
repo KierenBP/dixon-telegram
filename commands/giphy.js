@@ -9,8 +9,11 @@ function gifSearch(query) {
       if (err) {
         reject(err);
       }
-      if (test.data[1]) {
-        resolve(test.data[1].images.original.mp4);
+      if (test.data.length !== 0) {
+        console.log(test.data.length);
+        const randomNumber = Math.floor(Math.random() * (test.data.length)) + 1;
+        console.log(randomNumber);
+        resolve(test.data[randomNumber].images.original.mp4);
       } else {
         reject('No Gifs Found');
       }

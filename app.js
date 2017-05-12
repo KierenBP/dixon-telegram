@@ -2,11 +2,13 @@ const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config.json');
 const diceRoll = require('./commands/diceroll');
 const urbanDic = require('./commands/urbandic');
+const giphy = require('./commands/giphy');
 
 
 const commands = {
   diceRoll,
   urbanDic,
+  giphy,
 };
 
 // Token from Bot Father
@@ -47,6 +49,19 @@ bot.onText(/\/urbandic (.+)/, (msg, match) => {
   commands.urbanDic(match[1]).then((value) => {
     bot.sendMessage(chatId, `${match[1]}: ${value.definition}`);
     bot.sendMessage(chatId, `Example: ${value.example}`);
+  }).catch((err) => {
+    bot.sendMessage(chatId, `🚫Error! ${err}`);
+  });
+});
+
+
+// Matches ".gif" at the end of a message
+bot.onText(/(.+)\.gif+$/g, (msg, match) => {
+  const chatId = msg.chat.id;
+  // Send videosending Status
+  bot.sendChatAction(chatId, 'upload_video');
+  commands.giphy(match[1]).then((x) => {
+    bot.sendVideo(chatId, x);
   }).catch((err) => {
     bot.sendMessage(chatId, `🚫Error! ${err}`);
   });

@@ -1,3 +1,4 @@
 {
-    "telegramToken": "" // Telegram Bot Token
+    "telegramToken": "", // Telegram Bot Token
+    "giphyToken": "dc6zaTOxFJmzC"
 }

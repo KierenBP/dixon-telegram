@@ -84,12 +84,13 @@ bot.onText(/(.+)\.gif+$/g, (msg, match) => {
 });
 
 // Matches "/convert [fromCurrencyCode] [toCurrencyCode]" at the end of a message
-bot.onText(/\/convert (.+) (.+) (.+)/, (msg, match) => {
+bot.onText(/\/convert (.+) (.+) (.+) /, (msg, match) => {
   const chatId = msg.chat.id;
   const amount = match[1];
   const fromCurrency = match[2].toUpperCase();
   const toCurrency = match[3].toUpperCase();
-  if (match.length > 4) {
+  // Telegram adds the entire command at match[0] and has two values at the end of the array
+  if (match.length < 6) {
     commands.currency(amount, fromCurrency, toCurrency).then((convertedAmount) => {
       bot.sendMessage(chatId, `💰${amount + fromCurrency} in ${toCurrency} is ${convertedAmount}`, { reply_to_message_id: msg.message_id });
     }).catch((err) => {

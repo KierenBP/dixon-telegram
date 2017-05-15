@@ -39,7 +39,7 @@ bot.onText(/^(hello|hi|kia ora|hey)(!)? dixon(!)?/ig, (msg) => {
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, 'Help! \nDixon Bot was created by @imkieren \n\nCommands and Actions:\n[[word]].gif - Searches giphy and returns a gif\n/urbandic [word] - Searches Urban Dictionary for specified word\n/roll (number) - Rolls dice. 6 sides is default.\nWeather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown' });
+  bot.sendMessage(chatId, 'Help! \nDixon Bot was created by @imkieren \n\nCommands and Actions:\n[[word]].gif - Searches giphy and returns a gif\n/urbandic [word] - Searches Urban Dictionary for specified word\n/roll (number) - Rolls dice. 6 sides is default.\nWeather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown', reply_to_message_id: msg.message_id });
 });
 
 
@@ -49,9 +49,9 @@ bot.onText(/\/(roll)( .+)?/, (msg, match) => {
   // Send Typing Status
   bot.sendChatAction(chatId, 'typing');
   commands.diceRoll(match[2] || 6).then((value) => {
-    bot.sendMessage(chatId, `🎲 ${value}`);
+    bot.sendMessage(chatId, `🎲 ${value}`, { reply_to_message_id: msg.message_id });
   }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`);
+    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
   });
 });
 
@@ -61,10 +61,10 @@ bot.onText(/\/urbandic (.+)/, (msg, match) => {
   // Send typing Status
   bot.sendChatAction(chatId, 'typing');
   commands.urbanDic(match[1]).then((value) => {
-    bot.sendMessage(chatId, `${match[1]}: ${value.definition}`);
-    bot.sendMessage(chatId, `Example: ${value.example}`);
+    bot.sendMessage(chatId, `${match[1]}: ${value.definition}`, { reply_to_message_id: msg.message_id });
+    bot.sendMessage(chatId, `Example: ${value.example}`, { reply_to_message_id: msg.message_id });
   }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`);
+    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
   });
 });
 
@@ -75,9 +75,9 @@ bot.onText(/(.+)\.gif+$/g, (msg, match) => {
   // Send videosending Status
   bot.sendChatAction(chatId, 'upload_video');
   commands.giphy(match[1]).then((gifUrl) => {
-    bot.sendVideo(chatId, gifUrl);
+    bot.sendVideo(chatId, gifUrl, { reply_to_message_id: msg.message_id });
   }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`);
+    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
   });
 });
 
@@ -85,8 +85,12 @@ bot.on('location', (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
   commands.weather(msg.location.latitude, msg.location.longitude).then((weatherInfo) => {
-    bot.sendMessage(chatId, weatherInfo);
+    bot.sendMessage(chatId, weatherInfo, { reply_to_message_id: msg.message_id });
   }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`);
+    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
   });
+});
+
+bot.on('message', (msg) => {
+  console.log(msg);
 });

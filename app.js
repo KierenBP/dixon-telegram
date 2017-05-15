@@ -25,7 +25,7 @@ bot.getMe().then((me) => {
 });
 
 // Matches "Hello"
-bot.onText(/^(hello |hi |kia ora |hey )(!)?( dixon)?(!)?/ig, (msg) => {
+bot.onText(/^(hello|hi|kia ora|hey)(!)? dixon(!)?/ig, (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
   bot.sendMessage(chatId, 'Hello! 👋', {

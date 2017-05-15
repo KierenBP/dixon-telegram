@@ -14,7 +14,7 @@ function gifSearch(query) {
         // Picks a random gif from the array
         const randomNumber = Math.floor(Math.random() * (test.data.length)) + 1;
         // Check that it exists
-        if (typeof test.data[randomNumber].images.original.mp4 === 'string') {
+        if (typeof test.data[randomNumber].images !== 'undefined') {
           resolve(test.data[randomNumber].images.original.mp4);
         } else {
           reject();

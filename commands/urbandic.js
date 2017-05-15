@@ -8,7 +8,7 @@ function urbanDicSearch(word) {
       }
       const pBody = JSON.parse(body);
       // Check that definition is a string/exists
-      if (typeof pBody.list[0].definition === 'string') {
+      if (typeof pBody.list[0] !== 'undefined') {
         resolve({
           definition: pBody.list[0].definition,
           example: pBody.list[0].example,

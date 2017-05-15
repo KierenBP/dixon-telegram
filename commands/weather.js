@@ -8,7 +8,7 @@ function urbanDicSearch(latitude, longitude) {
         reject(error);
       }
       const pBody = JSON.parse(body);
-      if (typeof pBody.currently.temperature === 'string') {
+      if (typeof pBody.currently !== 'undefined') {
         resolve(`Currently it is: ${pBody.currently.temperature}°C and the weather condition is: ${pBody.currently.summary}\n\n${pBody.daily.summary}`);
       } else {
         reject();

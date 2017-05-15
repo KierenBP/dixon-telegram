@@ -1,6 +1,6 @@
 {
   "name": "dixon-telegram",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Telegram Bot",
   "main": "app.js",
   "scripts": {

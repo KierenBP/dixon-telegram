@@ -111,6 +111,7 @@ bot.on('location', (msg) => {
   });
 });
 
-bot.on('message', (msg) => {
-  console.log(msg);
-});
+// Dev Testing
+// bot.on('message', (msg) => {
+//   console.log(msg);
+// });

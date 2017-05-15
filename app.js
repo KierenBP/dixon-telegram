@@ -4,6 +4,7 @@ const diceRoll = require('./commands/diceroll');
 const urbanDic = require('./commands/urbandic');
 const giphy = require('./commands/giphy');
 const weather = require('./commands/weather');
+const currency = require('./commands/currency');
 
 
 const commands = {
@@ -11,6 +12,7 @@ const commands = {
   urbanDic,
   giphy,
   weather,
+  currency,
 };
 
 // Token from Bot Father
@@ -39,7 +41,7 @@ bot.onText(/^(hello|hi|kia ora|hey)(!)? dixon(!)?/ig, (msg) => {
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, 'Help! \nDixon Bot was created by @imkieren \n\nCommands and Actions:\n[[word]].gif - Searches giphy and returns a gif\n/urbandic [word] - Searches Urban Dictionary for specified word\n/roll (number) - Rolls dice. 6 sides is default.\nWeather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown', reply_to_message_id: msg.message_id });
+  bot.sendMessage(chatId, '*Help!*\n\nDixon Bot was created by @imkieren\nhttps://dixon.kieren.xyz\nhttps://github.com/kierenbp/dixon-telegram \n\nCommands and Actions:\n\u2022[[word]].gif - Searches giphy and returns a gif\n\u2022/urbandic [word] - Searches Urban Dictionary for specified word\n\u2022/roll (number) - Rolls dice. 6 sides is default.\n\u2022/convert (amount) (from currency code) (to currency code) - Converts currency (including bitcoin) eg: /convert 1 USD BTC 6 sides is default.\n\u2022Weather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown', reply_to_message_id: msg.message_id });
 });
 
 
@@ -80,6 +82,24 @@ bot.onText(/(.+)\.gif+$/g, (msg, match) => {
     bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
   });
 });
+
+// Matches "/convert [fromCurrencyCode] [toCurrencyCode]" at the end of a message
+bot.onText(/\/convert (.+) (.+) (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const amount = match[1];
+  const fromCurrency = match[2].toUpperCase();
+  const toCurrency = match[3].toUpperCase();
+  if (match.length > 4) {
+    commands.currency(amount, fromCurrency, toCurrency).then((convertedAmount) => {
+      bot.sendMessage(chatId, `💰${amount + fromCurrency} in ${toCurrency} is ${convertedAmount}`, { reply_to_message_id: msg.message_id });
+    }).catch((err) => {
+      bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
+    });
+  } else {
+    bot.sendMessage(chatId, '🚫Error! Too many arguments', { reply_to_message_id: msg.message_id });
+  }
+});
+
 
 bot.on('location', (msg) => {
   const chatId = msg.chat.id;

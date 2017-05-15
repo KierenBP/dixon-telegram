@@ -10,3 +10,4 @@
 * [x] Giphy Search (by ending a sentence with '.gif')
 * [x] Urban Dictionary Search
 * [x] Dice Roll
+* [x] Currency Convert (including Bitcoin/BTC)

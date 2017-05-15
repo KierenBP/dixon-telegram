@@ -8,7 +8,11 @@ function urbanDicSearch(latitude, longitude) {
         reject(error);
       }
       const pBody = JSON.parse(body);
-      resolve(`Currently it is: ${pBody.currently.temperature}°C and the weather condition is: ${pBody.currently.summary}\n\n${pBody.daily.summary}`);
+      if (typeof pBody.currently.temperature === 'string') {
+        resolve(`Currently it is: ${pBody.currently.temperature}°C and the weather condition is: ${pBody.currently.summary}\n\n${pBody.daily.summary}`);
+      } else {
+        reject();
+      }
     });
   });
 }

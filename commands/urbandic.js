@@ -7,10 +7,15 @@ function urbanDicSearch(word) {
         reject(error);
       }
       const pBody = JSON.parse(body);
-      resolve({
-        definition: pBody.list[0].definition,
-        example: pBody.list[0].example,
-      });
+      // Check that definition is a string/exists
+      if (typeof pBody.list[0].definition === 'string') {
+        resolve({
+          definition: pBody.list[0].definition,
+          example: pBody.list[0].example,
+        });
+      } else {
+        reject();
+      }
     });
   });
 }

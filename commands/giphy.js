@@ -13,7 +13,12 @@ function gifSearch(query) {
       if (test.data.length !== 0) {
         // Picks a random gif from the array
         const randomNumber = Math.floor(Math.random() * (test.data.length)) + 1;
-        resolve(test.data[randomNumber].images.original.mp4);
+        // Check that it exists
+        if (typeof test.data[randomNumber].images.original.mp4 === 'string') {
+          resolve(test.data[randomNumber].images.original.mp4);
+        } else {
+          reject();
+        }
       } else {
         reject('No Gifs Found');
       }

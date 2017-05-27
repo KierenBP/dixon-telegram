@@ -1,10 +1,13 @@
-const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config.json');
+const Telegraf = require('telegraf');
 const diceRoll = require('./commands/diceroll');
 const urbanDic = require('./commands/urbandic');
 const giphy = require('./commands/giphy');
 const weather = require('./commands/weather');
 const currency = require('./commands/currency');
+
+const { Markup } = require('telegraf');
+
 
 
 const commands = {
@@ -19,100 +22,93 @@ const commands = {
 const token = config.telegramToken;
 
 // Initalise Bot
-const bot = new TelegramBot(token, { polling: true });
+const bot = new Telegraf(token);
 
-bot.getMe().then((me) => {
-  // eslint-disable-next-line
-  console.log(`Hi! I'm ${me.first_name}`);
-});
+bot.telegram.getMe().then((botInfo) => {
+  bot.options.username = botInfo.username
+  bot.options.firstName = botInfo.first_name
+  console.log(`Hi there! I'm ${botInfo.first_name}!`)
+})
 
-// Matches "Hello"
-bot.onText(/^(hello|hi|kia ora|hey)(!)? dixon(!)?/ig, (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, 'Hello! 👋', {
-    reply_to_message_id: msg.message_id,
-    disable_notification: true,
-  });
-});
+// Detect when user says 'Hi' and reply!
+bot.hears(['hi', 'Hi'], (ctx) => ctx.reply('Hey there!',{
+    reply_to_message_id: ctx.message.message_id 
+}));
 
 
-// Matches "/help"
-bot.onText(/\/help/, (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendChatAction(chatId, 'typing');
-  bot.sendMessage(chatId, '*Help!*\n\nDixon Bot was created by @imkieren\nhttps://dixon.kieren.xyz\nhttps://github.com/kierenbp/dixon-telegram \n\nCommands and Actions:\n\u2022[[word]].gif - Searches giphy and returns a gif\n\u2022/urbandic [word] - Searches Urban Dictionary for specified word\n\u2022/roll (number) - Rolls dice. 6 sides is default.\n\u2022/convert (amount) (from currency code) (to currency code) - Converts currency (including bitcoin) eg: /convert 1 USD BTC 6 sides is default.\n\u2022Weather Update - Gives you weather update when you *send your location*', { parse_mode: 'markdown', reply_to_message_id: msg.message_id });
+// Start command - Add to database
+bot.command('start', ({ from, reply }) => {
+  console.log('start', from)
+  // Add to database
+  return reply(`Hello! I'm ${bot.options.firstName}. Type /help to see what I am able todo!`)
 });
 
 
-// Matches "/roll [number]"
-bot.onText(/\/(roll)( .+)?/, (msg, match) => {
-  const chatId = msg.chat.id;
-  // Send Typing Status
-  bot.sendChatAction(chatId, 'typing');
-  commands.diceRoll(match[2] || 6).then((value) => {
-    bot.sendMessage(chatId, `🎲 ${value}`, { reply_to_message_id: msg.message_id });
-  }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
-  });
-});
+// Stop Command
+bot.command('stop', (ctx) => ctx.reply('You sure you wanna stop?\n*Warning this will remove you from the online chat index*\nType /stopplease to contiune...',{
+    reply_to_message_id: ctx.message.message_id,
+    parse_mode: 'markdown'
+}));
 
-// Matches "/urbandic [word]"
-bot.onText(/\/urbandic (.+)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  // Send typing Status
-  bot.sendChatAction(chatId, 'typing');
-  commands.urbanDic(match[1]).then((value) => {
-    bot.sendMessage(chatId, `${match[1]}: ${value.definition}`, { reply_to_message_id: msg.message_id });
-    bot.sendMessage(chatId, `Example: ${value.example}`, { reply_to_message_id: msg.message_id });
-  }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
-  });
-});
+bot.command('stopplease', (ctx) => {
+  console.log(ctx)
+  if(all_members_are_administrators) {
+    console.log('stop', ctx.from)
+    ctx.reply(`This sucks. Removing you from database and leaving chat! Goodbye <3`)
+
+    // Remove from database
+
+    // Remove from online index
 
 
-// Matches ".gif" at the end of a message
-bot.onText(/(.+)\.gif+$/g, (msg, match) => {
-  const chatId = msg.chat.id;
-  // Send videosending Status
-  bot.sendChatAction(chatId, 'upload_video');
-  commands.giphy(match[1]).then((gifUrl) => {
-    bot.sendVideo(chatId, gifUrl, { reply_to_message_id: msg.message_id });
-  }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
-  });
-});
-
-// Matches "/convert [fromCurrencyCode] [toCurrencyCode]" at the end of a message
-bot.onText(/\/convert (.+) (.+) (.+) /, (msg, match) => {
-  const chatId = msg.chat.id;
-  const amount = match[1];
-  const fromCurrency = match[2].toUpperCase();
-  const toCurrency = match[3].toUpperCase();
-  // Telegram adds the entire command at match[0] and has two values at the end of the array
-  if (match.length < 6) {
-    commands.currency(amount, fromCurrency, toCurrency).then((convertedAmount) => {
-      bot.sendMessage(chatId, `💰${amount + fromCurrency} in ${toCurrency} is ${convertedAmount}`, { reply_to_message_id: msg.message_id });
-    }).catch((err) => {
-      bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
-    });
-  } else {
-    bot.sendMessage(chatId, '🚫Error! Too many arguments', { reply_to_message_id: msg.message_id });
+    // Leave Chat
+    if(ctx.message.chat.type !== 'private') {
+      // ctx.leaveChat()
+    }
   }
 });
 
 
-bot.on('location', (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendChatAction(chatId, 'typing');
-  commands.weather(msg.location.latitude, msg.location.longitude).then((weatherInfo) => {
-    bot.sendMessage(chatId, weatherInfo, { reply_to_message_id: msg.message_id });
-  }).catch((err) => {
-    bot.sendMessage(chatId, `🚫Error! ${err}`, { reply_to_message_id: msg.message_id });
+// Publish supergroup chat to online searchable index
+bot.command('publish', (ctx) => {
+  ctx.getChat().then(x => {
+    if(typeof x.username === 'string' && x.type === 'supergroup') {
+      ctx.reply(`Chat link: https://t.me/${x.username} \nChat Name: ${x.title}`, Markup.inlineKeyboard([
+        Markup.callbackButton('Edit Description', 'desc'),
+        Markup.callbackButton('Publish', 'publish')
+      ]).extra());
+      
+    }else {
+      ctx.reply('You cannot publish a chat that isn\'t a public supergroup!');
+    }
   });
 });
 
-// Dev Testing
-// bot.on('message', (msg) => {
-//   console.log(msg);
-// });
+bot.action('desc', (ctx => {
+  ctx.reply('Reply to this message with new Description')
+}))
+
+bot.action('publish', (ctx => {
+  ctx.reply('Publishing...')
+}))
+
+
+// List Admins
+bot.command('admins', (ctx) => {
+  if(ctx.chat.type !== 'private') {
+    ctx.getChatAdministrators().then(admins => {
+      let replyMessage = '';
+      admins.map(admin => {
+        replyMessage += `${admin.user.first_name} (@${admin.user.username}): ${admin.status} \n`
+      })
+      ctx.reply(replyMessage)
+    })
+  }else {
+    ctx.reply('Private chat doesnt have any admins.')
+  }
+});
+
+
+
+
+bot.startPolling();

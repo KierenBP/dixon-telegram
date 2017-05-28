@@ -1375,7 +1375,13 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
-telegraf@^3.7.1:
+telegraf-command-parts@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/telegraf-command-parts/-/telegraf-command-parts-1.0.3.tgz#d0e078d10ce3f68469b529e5ea3a76e42d5788b3"
+  dependencies:
+    telegraf "^3.1.0"
+
+telegraf@^3.1.0, telegraf@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-3.7.1.tgz#8a95fef334b2053f76716fe61cabd279c2e1735b"
   dependencies:

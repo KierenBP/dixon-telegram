@@ -26,4 +26,14 @@ function gifSearch(query) {
   });
 }
 
-module.exports = gifSearch;
+module.exports = (bot) => {
+  bot.command(['gif', 'g'], (ctx) => {
+    bot.telegram.sendChatAction(ctx.message.chat.id, 'upload_video');
+    gifSearch(ctx.state.command.args)
+    .then((gif) => {
+      ctx.replyWithVideo(gif);
+    }).catch((err) => {
+      ctx.reply(`Error! ${err}`);
+    });
+  });
+};

@@ -48,4 +48,16 @@ function convertCurrency(amount, fromCurrencyCode, toCurrencyCode) {
 }
 
 
-module.exports = convertCurrency;
+module.exports = (bot) => {
+  bot.command('convert', (ctx) => {
+    bot.telegram.sendChatAction(ctx.message.chat.id, 'typing');
+    const command = ctx.state.command;
+    convertCurrency(command.splitArgs[0], command.splitArgs[1], command.splitArgs[2])
+    .then((converted) => {
+      ctx.reply(`${command.splitArgs[0] + command.splitArgs[1]} is ${converted + command.splitArgs[2]}`);
+    })
+    .catch((err) => {
+      ctx.reply(`Error! ${err}`);
+    });
+  });
+};

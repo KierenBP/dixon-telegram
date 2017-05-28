@@ -1,3 +1,5 @@
+// Roll Dice with either max number of 6 or given number
+
 function diceRoll(maxNumber) {
   // Return Promise
   return new Promise((resolve, reject) => {
@@ -12,4 +14,13 @@ function diceRoll(maxNumber) {
   });
 }
 
-module.exports = diceRoll;
+module.exports = (bot) => {
+  bot.command(['roll', 'dice'], (ctx) => {
+    bot.telegram.sendChatAction(ctx.message.chat.id, 'typing');
+    diceRoll(ctx.state.command.splitArgs[0] || 6).then((rolledNum) => {
+      ctx.reply(`Rolled: ${rolledNum}`);
+    }).catch((err) => {
+      ctx.reply(`Error! ${err}`);
+    });
+  });
+};

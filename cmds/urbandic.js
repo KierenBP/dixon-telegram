@@ -20,4 +20,15 @@ function urbanDicSearch(word) {
   });
 }
 
-module.exports = urbanDicSearch;
+module.exports = (bot) => {
+  bot.command(['urbandictionary', 'urbandic', 'ud'], (ctx) => {
+    bot.telegram.sendChatAction(ctx.message.chat.id, 'typing');
+    const word = ctx.state.command.args;
+    urbanDicSearch(word).then((result) => {
+      ctx.reply(`${word} means:\n${result.definition}`);
+      ctx.reply(`An example of ${word} is:\n${result.example}`);
+    }).catch((err) => {
+      ctx.reply(`Error! ${err}`);
+    });
+  });
+};

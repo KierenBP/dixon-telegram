@@ -15,7 +15,7 @@ function diceRoll(maxNumber) {
 }
 
 module.exports = (bot) => {
-  bot.command(['roll', 'dice'], (ctx) => {
+  bot.command(['roll', 'dice', 'd'], (ctx) => {
     bot.telegram.sendChatAction(ctx.message.chat.id, 'typing');
     diceRoll(ctx.state.command.splitArgs[0] || 6).then((rolledNum) => {
       ctx.reply(`Rolled: ${rolledNum}`);

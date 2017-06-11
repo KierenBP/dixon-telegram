@@ -1,7 +1,6 @@
 const Giphy = require('giphy');
-const config = require('./../config');
 
-const giphy = new Giphy(config.giphyToken);
+const giphy = new Giphy(process.env.GIPHY);
 
 function gifSearch(query) {
   return new Promise((resolve, reject) => {

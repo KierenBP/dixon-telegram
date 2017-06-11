@@ -1,9 +1,10 @@
 const request = require('request');
-const config = require('./../config');
+
+const darkSkyAPIKey = process.env.DARKSKYKEY;
 
 function weatherReq(latitude, longitude) {
   return new Promise((resolve, reject) => {
-    request(`https://api.darksky.net/forecast/${config.darkSkyAPI}/${latitude},${longitude}?units=ca`, (error, response, body) => {
+    request(`https://api.darksky.net/forecast/${darkSkyAPIKey}/${latitude},${longitude}?units=ca`, (error, response, body) => {
       if (error) {
         reject(error);
       }

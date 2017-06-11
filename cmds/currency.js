@@ -52,12 +52,18 @@ module.exports = (bot) => {
   bot.command('convert', (ctx) => {
     bot.telegram.sendChatAction(ctx.message.chat.id, 'typing');
     const command = ctx.state.command;
-    convertCurrency(command.splitArgs[0].toUpperCase(), command.splitArgs[1].toUpperCase(), command.splitArgs[2].toUpperCase())
-    .then((converted) => {
-      ctx.reply(`${command.splitArgs[0] + command.splitArgs[1]} is ${converted + command.splitArgs[2]}`);
-    })
-    .catch((err) => {
-      ctx.reply(`Error! ${err}`);
-    });
+    if (command.splitArgs.length === 3) {
+      convertCurrency(command.splitArgs[0].toUpperCase(),
+      command.splitArgs[1].toUpperCase(),
+      command.splitArgs[2].toUpperCase())
+      .then((converted) => {
+        ctx.reply(`${command.splitArgs[0] + command.splitArgs[1]} is ${converted + command.splitArgs[2]}`);
+      })
+      .catch((err) => {
+        ctx.reply(`Error! ${err}`);
+      });
+    } else {
+      ctx.reply('You must supply 3 arguments. eg: /convert 1 USD NZD');
+    }
   });
 };

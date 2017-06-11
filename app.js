@@ -3,6 +3,11 @@ const Telegraf = require('telegraf');
 const fs = require('fs');
 const commandParts = require('telegraf-command-parts');
 
+const webhookURL = process.env.WEBHOOK_URL;
+const webhookPort = process.env.WEBHOOK_PORT;
+const webhookPath = process.env.WEBHOOK_PATH;
+const devWebhookURL = process.env.WEBHOOK_DEV_URL || process.env.WEBHOOK_URL;
+
 // Token from Bot Father
 const token = config.telegramToken;
 
@@ -27,5 +32,5 @@ fs.readdir(commandsFolder, (err, cmds) => {
   cmds.map(cmd => require(`${commandsFolder}/${cmd}`)(bot));
 });
 
-
-bot.startPolling();
+bot.telegram.setWebhook(webhookURL);
+bot.startWebhook(webhookPath, null, webhookPort, devWebhookURL);
